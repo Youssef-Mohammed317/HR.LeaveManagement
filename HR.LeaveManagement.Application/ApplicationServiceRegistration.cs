@@ -24,6 +24,10 @@ public static class ApplicationServiceRegistration
         services.AddTransient(
             typeof(IPipelineBehavior<,>),
             typeof(ValidationBehaviour<,>));
+
+        services.AddTransient(
+            typeof(IPipelineBehavior<,>),
+            typeof(LoggingBehaviour<,>));
         return services;
     }
 }
