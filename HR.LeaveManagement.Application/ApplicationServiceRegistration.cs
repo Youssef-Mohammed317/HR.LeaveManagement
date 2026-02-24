@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using HR.LeaveManagement.Application.Behaviors;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -8,7 +9,7 @@ namespace HR.LeaveManagement.Application;
 
 public static class ApplicationServiceRegistration
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
 
         services.AddAutoMapper(cfg =>

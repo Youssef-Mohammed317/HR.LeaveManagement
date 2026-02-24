@@ -1,7 +1,4 @@
-using HR.LeaveManagement.API.Middlewares;
-using HR.LeaveManagement.Application;
-using HR.LeaveManagement.Infrastructure;
-using HR.LeaveManagement.Persistence;
+using HR.LeaveManagement.API.Extensions;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -15,40 +12,13 @@ try
 
     builder.Host.UseSerilog();
 
-    builder.Services.AddControllers();
-    builder.Services.AddOpenApi();
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
-
-    builder.Services.AddApplicationServices();
-    builder.Services.AddInfrastructureServices(builder.Configuration);
-    builder.Services.AddPersistenceServices(builder.Configuration);
-
-    builder.Services.AddCors(options =>
-    {
-        options.AddPolicy("AllowAll", o =>
-        {
-            o.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
-        });
-    });
-
-    builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
+    builder.Services.AddApiServices(builder.Configuration);
 
     var app = builder.Build();
 
-    if (app.Environment.IsDevelopment())
-    {
-        app.MapOpenApi();
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
+    await app.InitialiseDatabaseAsync();
 
-    app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
-
-    app.UseHttpsRedirection();
-    app.UseCors("AllowAll");
-    app.UseAuthorization();
-    app.MapControllers();
+    app.UsePresentationPipeline();
 
     await app.RunAsync();
 }

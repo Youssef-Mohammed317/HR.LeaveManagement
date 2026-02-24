@@ -1,23 +1,20 @@
-﻿using HR.LeaveManagement.Domain;
-using HR.LeaveManagement.Domain.Common;
+﻿using HR.LeaveManagement.Domain.Common;
+using HR.LeaveManagement.Domain.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace HR.LeaveManagement.Persistence.DatabaseContext;
+namespace HR.LeaveManagement.Identity.IdentityContext;
 
-public class HrDatabaseContext(DbContextOptions<HrDatabaseContext> options) : DbContext(options)
+public class HrIdentityDatabaseContext(DbContextOptions<HrIdentityDatabaseContext> options)
+    : IdentityDbContext<ApplicationUser, ApplicationRole, string>(options)
 {
-    public DbSet<LeaveType> LeaveTypes { get; set; }
-    public DbSet<LeaveAllocation> LeaveAllocations { get; set; }
-    public DbSet<LeaveRequest> LeaveRequests { get; set; }
-
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(HrDatabaseContext).Assembly);
-    }
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(HrIdentityDatabaseContext).Assembly);
 
+    }
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         var entries = base.ChangeTracker.Entries<IAuditable>()
