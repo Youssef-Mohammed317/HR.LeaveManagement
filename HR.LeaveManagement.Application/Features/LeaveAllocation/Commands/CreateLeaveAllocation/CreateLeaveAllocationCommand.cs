@@ -5,7 +5,7 @@ using MediatR;
 
 namespace HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.CreateLeaveAllocation;
 
-public record CreateLeaveAllocationCommand(int LeaveTypeId) : IRequest;
+public record CreateLeaveAllocationCommand(int LeaveTypeId) : IRequest<int>;
 
 public class CreateLeaveAllocationCommandValidator : AbstractValidator<CreateLeaveAllocationCommand>
 {
@@ -29,14 +29,16 @@ public class CreateLeaveAllocationCommandValidator : AbstractValidator<CreateLea
 }
 
 public class CreateLeaveAllocationCommandHandler(ILeaveAllocationRepository leaveAllocationRepository,
-    IMapper mapper) : IRequestHandler<CreateLeaveAllocationCommand>
+    IMapper mapper) : IRequestHandler<CreateLeaveAllocationCommand, int>
 {
-    public async Task Handle(CreateLeaveAllocationCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateLeaveAllocationCommand request, CancellationToken cancellationToken)
     {
-   
+
 
         var entity = mapper.Map<Domain.LeaveAllocation>(request);
 
         await leaveAllocationRepository.CreateAsync(entity);
+
+        return entity.Id;
     }
 }

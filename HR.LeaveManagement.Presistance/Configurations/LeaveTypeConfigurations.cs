@@ -14,9 +14,17 @@ public class LeaveTypeConfiguration : IEntityTypeConfiguration<LeaveType>
                 Id = 1,
                 Name = "Vacation",
                 DefaultDays = 10,
-                DateCreated = DateTime.UtcNow,
-                DateModified = DateTime.UtcNow,
+                DateCreated = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                DateModified = new DateTime(2024, 6, 1, 0, 0, 0, DateTimeKind.Utc),
 
+            },
+            new LeaveType
+            {
+                Id = 2,
+                Name = "Annual",
+                DefaultDays = 21,
+                DateCreated = new DateTime(2024, 3, 1, 0, 0, 0, DateTimeKind.Utc),
+                DateModified = new DateTime(2024, 5, 1, 0, 0, 0, DateTimeKind.Utc)
             });
 
         builder.Property(p => p.Name)

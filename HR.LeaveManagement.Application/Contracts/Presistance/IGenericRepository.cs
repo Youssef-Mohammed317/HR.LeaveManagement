@@ -13,5 +13,5 @@ public interface IGenericRepository<TEntity, TKey> where TEntity : BaseEntity<TK
     Task DeleteAsync(TEntity entity);
     Task UpdateAsync(TEntity entity);
     Task<TEntity?> GetFirstAsync(Expression<Func<TEntity, bool>> filter, 
-        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null));
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null);
 }

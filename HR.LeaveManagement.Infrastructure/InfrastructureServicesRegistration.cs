@@ -12,7 +12,7 @@ public static class InfrastructureServicesRegistration
     {
         services.Configure<BrevoEmailSettings>(configuration.GetSection("BrevoEmailSettings"));
 
-        services.AddScoped<IEmailSender, BrevoEmailSender>();
+        services.AddHttpClient<IEmailSender, BrevoEmailSender>();
 
         return services;
     }

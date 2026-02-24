@@ -35,7 +35,7 @@ public class BrevoEmailSender : IEmailSender
                {
                 new
                 {
-                    email = emailSettings.FromAddress,
+                    email = emailSettings.FromEmail,
                     name = emailSettings.FromName
                 }
             }

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.DeleteLeaveType;
 
-public record DeleteLeaveTypeCommand(int Id, string Name, int DefaultDays) : IRequest;
+public record DeleteLeaveTypeCommand(int Id) : IRequest;
 
 public class DeleteLeaveTypeCommandHandler(ILeaveTypeRepository leaveTypeRepository) : IRequestHandler<DeleteLeaveTypeCommand>
 {
