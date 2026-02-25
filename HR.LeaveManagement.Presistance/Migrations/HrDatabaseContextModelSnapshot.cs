@@ -41,7 +41,7 @@ namespace HR.LeaveManagement.Persistence.Migrations
 
                     b.Property<string>("EmployeeId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("LeaveTypeId")
                         .HasColumnType("int");
@@ -57,9 +57,14 @@ namespace HR.LeaveManagement.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmployeeId");
+
                     b.HasIndex("LeaveTypeId");
 
-                    b.ToTable("LeaveAllocations", (string)null);
+                    b.HasIndex("EmployeeId", "LeaveTypeId", "Period")
+                        .IsUnique();
+
+                    b.ToTable("LeaveAllocations");
                 });
 
             modelBuilder.Entity("HR.LeaveManagement.Domain.LeaveRequest", b =>
@@ -69,9 +74,6 @@ namespace HR.LeaveManagement.Persistence.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool?>("Approved")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("Cancelled")
                         .HasColumnType("bit");
@@ -98,20 +100,28 @@ namespace HR.LeaveManagement.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RequestComments")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("RequestingEmployeeId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("DateRequested");
 
                     b.HasIndex("LeaveTypeId");
 
-                    b.ToTable("LeaveRequests", (string)null);
+                    b.HasIndex("RequestingEmployeeId");
+
+                    b.ToTable("LeaveRequests");
                 });
 
             modelBuilder.Entity("HR.LeaveManagement.Domain.LeaveType", b =>
@@ -144,7 +154,10 @@ namespace HR.LeaveManagement.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LeaveTypes", (string)null);
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("LeaveTypes");
 
                     b.HasData(
                         new
@@ -168,9 +181,9 @@ namespace HR.LeaveManagement.Persistence.Migrations
             modelBuilder.Entity("HR.LeaveManagement.Domain.LeaveAllocation", b =>
                 {
                     b.HasOne("HR.LeaveManagement.Domain.LeaveType", "LeaveType")
-                        .WithMany()
+                        .WithMany("LeaveAllocations")
                         .HasForeignKey("LeaveTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("LeaveType");
@@ -179,12 +192,19 @@ namespace HR.LeaveManagement.Persistence.Migrations
             modelBuilder.Entity("HR.LeaveManagement.Domain.LeaveRequest", b =>
                 {
                     b.HasOne("HR.LeaveManagement.Domain.LeaveType", "LeaveType")
-                        .WithMany()
+                        .WithMany("LeaveRequests")
                         .HasForeignKey("LeaveTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("LeaveType");
+                });
+
+            modelBuilder.Entity("HR.LeaveManagement.Domain.LeaveType", b =>
+                {
+                    b.Navigation("LeaveAllocations");
+
+                    b.Navigation("LeaveRequests");
                 });
 #pragma warning restore 612, 618
         }

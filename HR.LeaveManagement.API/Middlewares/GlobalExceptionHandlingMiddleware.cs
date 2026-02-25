@@ -24,10 +24,30 @@ public class GlobalExceptionHandlingMiddleware(ILogger<GlobalExceptionHandlingMi
                 Title = "Resource Not Found",
                 Status = StatusCodes.Status404NotFound,
                 Detail = ex.Message,
-                Type = nameof(NotFoundException)
+                Type = nameof(NotFoundException),
+                Instance = context.Request.Path
             };
 
             await context.Response.WriteAsJsonAsync(problem);
+        }
+        catch (BadRequestException ex)
+        {
+            logger.LogWarning(ex, ex.Message);
+
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            context.Response.ContentType = "application/json";
+
+            var problem = new ProblemDetails
+            {
+                Title = "Bad Request",
+                Status = StatusCodes.Status400BadRequest,
+                Detail = ex.Message,
+                Type = nameof(BadRequestException),
+                Instance = context.Request.Path
+            };
+
+            await context.Response.WriteAsJsonAsync(problem);
+
         }
         catch (ValidationException ex)
         {
@@ -47,7 +67,8 @@ public class GlobalExceptionHandlingMiddleware(ILogger<GlobalExceptionHandlingMi
             {
                 Title = "Validation Failed",
                 Status = StatusCodes.Status400BadRequest,
-                Type = nameof(ValidationException)
+                Type = nameof(ValidationException),
+                Instance = context.Request.Path
             };
 
             await context.Response.WriteAsJsonAsync(problem);
@@ -64,6 +85,7 @@ public class GlobalExceptionHandlingMiddleware(ILogger<GlobalExceptionHandlingMi
                 Title = "Internal Server Error",
                 Status = StatusCodes.Status500InternalServerError,
                 Detail = "An unexpected error occurred.",
+                Instance = context.Request.Path
             };
 
             await context.Response.WriteAsJsonAsync(problem);

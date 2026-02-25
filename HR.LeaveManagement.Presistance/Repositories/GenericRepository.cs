@@ -22,6 +22,8 @@ public class GenericRepository<TEntity, TKey>(HrDatabaseContext context) : IGene
         await context.SaveChangesAsync();
     }
 
+
+
     public async Task<IReadOnlyList<TEntity>> GetAsync(
         Expression<Func<TEntity, bool>>? filter = null,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null
@@ -42,7 +44,11 @@ public class GenericRepository<TEntity, TKey>(HrDatabaseContext context) : IGene
     {
         return await dbSet.FindAsync(key);
     }
-
+    public async Task UpdateAsync(TEntity entity)
+    {
+        dbSet.Update(entity);
+        await context.SaveChangesAsync();
+    }
     public async Task<TEntity?> GetFirstAsync(
         Expression<Func<TEntity, bool>> filter,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null
@@ -55,10 +61,21 @@ public class GenericRepository<TEntity, TKey>(HrDatabaseContext context) : IGene
 
         return await query.FirstOrDefaultAsync(filter);
     }
-
-    public async Task UpdateAsync(TEntity entity)
+    public async Task<bool> ExsistsAsync(Expression<Func<TEntity, bool>> filter)
     {
-        dbSet.Update(entity);
-        await context.SaveChangesAsync();
+        return await dbSet.AnyAsync(filter);
     }
+
+    public async Task<decimal> SumAsync(Expression<Func<TEntity, decimal>> selector,
+        Expression<Func<TEntity, bool>>? filter = null)
+    {
+        var query = dbSet.AsQueryable();
+
+        if (filter != null)
+            query = query.Where(filter);
+
+        return await query.SumAsync(selector);
+    }
+
+
 }

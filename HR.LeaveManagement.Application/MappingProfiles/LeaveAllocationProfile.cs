@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HR.LeaveManagement.Application.Features.LeaveAllocation.Queries.GetLeaveAllocation;
+using HR.LeaveManagement.Application.Features.LeaveAllocation.Queries.GetAll;
 using HR.LeaveManagement.Application.Features.LeaveAllocation.Queries.GetLeaveAllocationDetails;
 using HR.LeaveManagement.Domain;
 

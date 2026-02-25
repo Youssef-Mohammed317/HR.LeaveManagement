@@ -8,6 +8,15 @@ public class LeaveAllocationConfiguration : IEntityTypeConfiguration<LeaveAlloca
 {
     public void Configure(EntityTypeBuilder<LeaveAllocation> builder)
     {
-       
+        builder.HasKey(x => x.Id);
+
+        builder.Property(x => x.NumberOfDays)
+               .IsRequired();
+
+        builder.Property(x => x.Period)
+               .IsRequired();
+        builder.HasIndex(x => x.EmployeeId);
+        builder.HasIndex(x => new { x.EmployeeId, x.LeaveTypeId, x.Period })
+       .IsUnique();
     }
 }

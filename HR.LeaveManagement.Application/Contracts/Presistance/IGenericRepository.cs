@@ -12,6 +12,8 @@ public interface IGenericRepository<TEntity, TKey> where TEntity : BaseEntity<TK
     Task CreateAsync(TEntity entity);
     Task DeleteAsync(TEntity entity);
     Task UpdateAsync(TEntity entity);
-    Task<TEntity?> GetFirstAsync(Expression<Func<TEntity, bool>> filter, 
+    Task<TEntity?> GetFirstAsync(Expression<Func<TEntity, bool>> filter,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null);
+    Task<bool> ExsistsAsync(Expression<Func<TEntity, bool>> filter);
+    Task<decimal> SumAsync(Expression<Func<TEntity, decimal>> selector, Expression<Func<TEntity, bool>>? filter = null);
 }

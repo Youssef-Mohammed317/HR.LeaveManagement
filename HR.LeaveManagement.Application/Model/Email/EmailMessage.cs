@@ -1,4 +1,4 @@
-﻿namespace HR.LeaveManagement.Application.Model;
+﻿namespace HR.LeaveManagement.Application.Model.Email;
 
 public class EmailMessage
 {

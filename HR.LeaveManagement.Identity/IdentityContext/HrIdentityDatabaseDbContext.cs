@@ -1,11 +1,12 @@
-﻿using HR.LeaveManagement.Domain.Common;
+﻿using HR.LeaveManagement.Application.Contracts.Identity;
+using HR.LeaveManagement.Domain.Common;
 using HR.LeaveManagement.Domain.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace HR.LeaveManagement.Identity.IdentityContext;
 
-public class HrIdentityDatabaseContext(DbContextOptions<HrIdentityDatabaseContext> options)
+public class HrIdentityDatabaseContext(DbContextOptions<HrIdentityDatabaseContext> options, IUserService userService)
     : IdentityDbContext<ApplicationUser, ApplicationRole, string>(options)
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,9 +24,11 @@ public class HrIdentityDatabaseContext(DbContextOptions<HrIdentityDatabaseContex
         foreach (var entry in entries)
         {
             entry.Entity.DateModified = DateTime.UtcNow;
+            entry.Entity.ModifiedBy = userService.UserId;
             if (entry.State == EntityState.Added)
             {
                 entry.Entity.DateCreated = DateTime.UtcNow;
+                entry.Entity.CreatedBy = userService.UserId;
             }
         }
 

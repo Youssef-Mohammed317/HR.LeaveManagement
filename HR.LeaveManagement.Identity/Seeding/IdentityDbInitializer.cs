@@ -1,5 +1,6 @@
 ﻿using HR.LeaveManagement.Application.Contracts.Common;
 using HR.LeaveManagement.Domain.Identity;
+using HR.LeaveManagement.Domain.Utility;
 using Microsoft.AspNetCore.Identity;
 
 namespace HR.LeaveManagement.Identity.Seeding;
@@ -9,8 +10,8 @@ public class IdentityDbInitializer(UserManager<ApplicationUser> userManager,
 {
     public async Task InitializeAsync()
     {
-        var employeeRole = "Employee";
-        var adminRole = "Administrator";
+        var employeeRole = Roles.Employee;
+        var adminRole = Roles.Administrator;
         var adminEmail = "admin@test.com";
         var employeeEmail = "employee@test.com";
         var password = "Pa$$w0rd";

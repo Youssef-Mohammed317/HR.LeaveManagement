@@ -16,7 +16,8 @@ public class GetLeaveRequestDetailsQueryHandler(ILeaveRequestRepository leaveReq
     {
         var entity = await leaveRequestRepository.GetFirstAsync(filter: q => q.Id == request.Id,
             include: q => q.Include(p => p.LeaveType))
-            ?? throw new NotFoundException(nameof(Domain.LeaveRequest), request.Id);
+            ??
+            throw new NotFoundException(nameof(Domain.LeaveRequest), request.Id);
 
         return mapper.Map<LeaveRequestDetailsDto>(entity);
 

@@ -1,5 +1,5 @@
 ﻿using HR.LeaveManagement.Application.Contracts.Email;
-using HR.LeaveManagement.Application.Model;
+using HR.LeaveManagement.Application.Model.Email;
 using Microsoft.Extensions.Options;
 using System.Text;
 using System.Text.Json;
@@ -21,7 +21,7 @@ public class BrevoEmailSender : IEmailSender
             this.emailSettings.ApiKey
         );
     }
-    public async Task<bool> SendEmail(EmailMessage email)
+    public async Task<bool> SendEmailAsync(EmailMessage email)
     {
         var body = new
         {

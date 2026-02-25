@@ -3,18 +3,19 @@ using HR.LeaveManagement.Application.Features.LeaveType.Commands.DeleteLeaveType
 using HR.LeaveManagement.Application.Features.LeaveType.Commands.UpdateLeaveType;
 using HR.LeaveManagement.Application.Features.LeaveType.Queries.GetAllLeaveTypes;
 using HR.LeaveManagement.Application.Features.LeaveType.Queries.GetLeaveTypeDetails;
+using HR.LeaveManagement.Domain.Utility;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HR.LeaveManagement.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-//[Authorize]
+[Authorize]
 public class LeaveTypesController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
-
     public async Task<ActionResult<IReadOnlyList<LeaveTypeDto>>> GetAll()
     {
         var leaveTypes = await mediator.Send(new GetAllLeaveTypesQuery());
@@ -33,6 +34,7 @@ public class LeaveTypesController(IMediator mediator) : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> Create([FromBody] CreateLeaveTypeCommand command)
     {
         var id = await mediator.Send(command);
@@ -43,6 +45,7 @@ public class LeaveTypesController(IMediator mediator) : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize(Roles = Roles.Administrator)]
 
     public async Task<IActionResult> Edit([FromBody] UpdateLeaveTypeCommand command)
     {
@@ -53,6 +56,7 @@ public class LeaveTypesController(IMediator mediator) : ControllerBase
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         await mediator.Send(new DeleteLeaveTypeCommand(id));

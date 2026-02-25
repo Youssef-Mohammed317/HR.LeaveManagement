@@ -1,4 +1,6 @@
 ﻿using HR.LeaveManagement.Application.Features.LeaveType.Queries.GetAllLeaveTypes;
+using HR.LeaveManagement.Application.Model.Identity;
+using HR.LeaveManagement.Domain;
 
 namespace HR.LeaveManagement.Application.Features.LeaveRequest.Queries.GetLeaveRequestDetails;
 
@@ -15,12 +17,13 @@ public class LeaveRequestDetailsDto
 
     public DateTime DateRequested { get; set; }
     public string? RequestComments { get; set; }
-    public bool? Approved { get; set; }
+    public LeaveRequestStatus Status { get; set; }
     public bool Cancelled { get; set; }
 
     public string RequestingEmployeeId { get; set; } = string.Empty;
 
-    // Employee nav prop
+
+    public Employee Employee { get; set; } = null!;
 
     public int LeaveTypeId { get; set; }
     public LeaveTypeDto LeaveType { get; set; } = null!;
