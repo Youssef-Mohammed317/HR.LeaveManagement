@@ -61,7 +61,7 @@ public class GenericRepository<TEntity, TKey>(HrDatabaseContext context) : IGene
 
         return await query.FirstOrDefaultAsync(filter);
     }
-    public async Task<bool> ExsistsAsync(Expression<Func<TEntity, bool>> filter)
+    public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> filter)
     {
         return await dbSet.AnyAsync(filter);
     }

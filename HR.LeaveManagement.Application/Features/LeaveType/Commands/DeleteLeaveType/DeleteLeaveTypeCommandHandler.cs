@@ -1,15 +1,19 @@
-﻿using HR.LeaveManagement.Application.Contracts.Presistance;
+﻿using HR.LeaveManagement.Application.Contracts.Identity;
+using HR.LeaveManagement.Application.Contracts.Presistance;
 using HR.LeaveManagement.Application.Exceptions;
+using HR.LeaveManagement.Domain.Utility;
 using MediatR;
 
 namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.DeleteLeaveType;
 
 public class DeleteLeaveTypeCommandHandler(ILeaveTypeRepository leaveTypeRepository,
-    ILeaveRequestRepository leaveRequestRepository,
+    ILeaveRequestRepository leaveRequestRepository, IUserService userService,
     ILeaveAllocationRepository leaveAllocationRepository) : IRequestHandler<DeleteLeaveTypeCommand>
 {
     public async Task Handle(DeleteLeaveTypeCommand request, CancellationToken cancellationToken)
     {
+        if (!userService.IsAdmin)
+            throw new ForbiddenAccessException();
 
         var entity = await leaveTypeRepository.GetByIdAsync(request.Id)
             ?? throw new NotFoundException(nameof(Domain.LeaveType), request.Id);

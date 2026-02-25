@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HR.LeaveManagement.Application.Contracts.Identity;
 using HR.LeaveManagement.Application.Contracts.Presistance;
+using HR.LeaveManagement.Application.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,10 +13,9 @@ public class GetAllMyLeaveAllocationsQueryHandler(ILeaveAllocationRepository lea
 {
     public async Task<IReadOnlyList<LeaveAllocationDto>> Handle(GetAllMyLeaveAllocationsQuery request, CancellationToken cancellationToken)
     {
-        var userId = userService.UserId;
-
-        if (string.IsNullOrEmpty(userId))
-            throw new UnauthorizedAccessException("User is not authenticated");
+        var userId = userService.UserId
+            ??
+            throw new ForbiddenAccessException();
 
         var leaveAllocations = await leaveAllocationRepository.GetAsync(
                    filter: q => q.EmployeeId == userId,

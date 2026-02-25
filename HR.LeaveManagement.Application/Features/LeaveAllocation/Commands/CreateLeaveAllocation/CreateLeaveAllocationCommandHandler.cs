@@ -1,6 +1,7 @@
 ﻿using HR.LeaveManagement.Application.Contracts.Identity;
 using HR.LeaveManagement.Application.Contracts.Presistance;
 using HR.LeaveManagement.Application.Exceptions;
+using HR.LeaveManagement.Domain.Utility;
 using MediatR;
 
 namespace HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.CreateLeaveAllocation;
@@ -12,6 +13,10 @@ public class CreateLeaveAllocationCommandHandler(ILeaveAllocationRepository leav
     public async Task<int> Handle(CreateLeaveAllocationCommand request, CancellationToken cancellationToken)
     {
 
+        if (!userService.IsAdmin)
+            throw new ForbiddenAccessException();
+
+
         var leaveType = await leaveTypeRepository.GetByIdAsync(request.LeaveTypeId)
                 ?? throw new NotFoundException(nameof(Domain.LeaveType), request.LeaveTypeId);
 
@@ -21,7 +26,7 @@ public class CreateLeaveAllocationCommandHandler(ILeaveAllocationRepository leav
 
         foreach (var employee in employees)
         {
-            var exists = await leaveAllocationRepository.ExsistsAsync(filter: r =>
+            var exists = await leaveAllocationRepository.ExistsAsync(filter: r =>
                   r.LeaveTypeId == leaveType.Id &&
                   r.EmployeeId == employee.Id &&
                   r.Period == currentYear);

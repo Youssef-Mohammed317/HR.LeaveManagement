@@ -26,11 +26,8 @@ public class LeaveRequestConfiguration : IEntityTypeConfiguration<LeaveRequest>
            .HasConversion<int>()
            .IsRequired();
 
-        builder.Property(x => x.Cancelled)
-               .IsRequired();
 
-
-        builder.HasIndex(x => x.RequestingEmployeeId);
+        builder.HasIndex(x => x.EmployeeId);
         builder.HasIndex(x => x.LeaveTypeId);
         builder.HasIndex(x => x.DateRequested);
 

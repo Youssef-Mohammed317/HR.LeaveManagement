@@ -20,6 +20,9 @@ public class LeaveAllocationsController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
     [Authorize(Roles = Roles.Administrator)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<IReadOnlyList<LeaveAllocationDto>>> GetAll([FromQuery] string? employeeId = null)
     {
         var leaveAllocations = await mediator.Send(new GetAllLeaveAllocationsQuery(employeeId));
@@ -29,6 +32,8 @@ public class LeaveAllocationsController(IMediator mediator) : ControllerBase
 
     [HttpGet("mine")]
     [Authorize(Roles = Roles.Employee)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IReadOnlyList<LeaveAllocationDto>>> GetAllMyLeaveAllocations()
     {
         var leaveAllocations = await mediator.Send(new GetAllMyLeaveAllocationsQuery());
@@ -37,6 +42,9 @@ public class LeaveAllocationsController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<LeaveAllocationDetailsDto>> GetById([FromRoute] int id)
     {
         var leaveAllocation = await mediator.Send(new GetLeaveAllocationDetailQuery(id));
@@ -47,6 +55,8 @@ public class LeaveAllocationsController(IMediator mediator) : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> Create([FromBody] CreateLeaveAllocationCommand command)
     {
@@ -58,6 +68,8 @@ public class LeaveAllocationsController(IMediator mediator) : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> Edit([FromBody] UpdateLeaveAllocationCommand command)
     {
@@ -68,6 +80,9 @@ public class LeaveAllocationsController(IMediator mediator) : ControllerBase
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {

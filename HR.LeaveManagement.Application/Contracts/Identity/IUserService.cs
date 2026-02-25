@@ -7,6 +7,8 @@ public interface IUserService
     string? UserId { get; }
     bool IsInRole(string role);
 
+    bool IsAdmin { get; }
+    string? Email { get; }
     Task<IReadOnlyList<Employee>> GetAllEmployeesAsync();
     Task<Employee> GetEmployeeByIdAsync(string userId);
 }

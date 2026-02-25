@@ -29,6 +29,6 @@ public class CreateLeaveTypeCommandValidator : AbstractValidator<CreateLeaveType
 
     private async Task<bool> LeaveTypeNameUnique(string name, CancellationToken token)
     {
-        return !await leaveTypeRepository.ExsistsAsync(p => p.Name.ToLower() == name.ToLower());
+        return !await leaveTypeRepository.ExistsAsync(p => p.Name.ToLower() == name.ToLower());
     }
 }

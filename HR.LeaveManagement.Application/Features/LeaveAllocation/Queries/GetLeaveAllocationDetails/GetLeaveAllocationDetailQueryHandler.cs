@@ -21,15 +21,12 @@ public class GetLeaveAllocationDetailQueryHandler(ILeaveAllocationRepository lea
             include: q => q.Include(p => p.LeaveType))
             ?? throw new NotFoundException(nameof(Domain.LeaveAllocation), request.Id);
 
-        var userId = userService.UserId;
-        if (string.IsNullOrEmpty(userId))
-            throw new UnauthorizedAccessException();
+        var userId = userService.UserId ??
+            throw new ForbiddenAccessException();
 
-        var isAdmin = userService.IsInRole(Roles.Administrator);
-
-        if (!isAdmin && leaveAllocationEntity.EmployeeId != userId)
+        if (!userService.IsAdmin && leaveAllocationEntity.EmployeeId != userId)
         {
-            throw new UnauthorizedAccessException("You have no access to this resource");
+            throw new ForbiddenAccessException();
         }
 
         var employee = await userService.GetEmployeeByIdAsync(leaveAllocationEntity.EmployeeId)

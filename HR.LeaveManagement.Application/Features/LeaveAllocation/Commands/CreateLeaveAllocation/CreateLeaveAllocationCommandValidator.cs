@@ -20,6 +20,6 @@ public class CreateLeaveAllocationCommandValidator : AbstractValidator<CreateLea
 
     private async Task<bool> LeaveTypeMustExist(int id, CancellationToken token)
     {
-        return await leaveTypeRepository.ExsistsAsync(q => q.Id == id);
+        return await leaveTypeRepository.ExistsAsync(q => q.Id == id);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.UpdateLeaveAllocation;
 using HR.LeaveManagement.Application.Features.LeaveAllocation.Queries.GetAll;
 using HR.LeaveManagement.Application.Features.LeaveAllocation.Queries.GetLeaveAllocationDetails;
 using HR.LeaveManagement.Domain;
@@ -11,5 +12,6 @@ public class LeaveAllocationProfile : Profile
     {
         CreateMap<LeaveAllocation, LeaveAllocationDto>();
         CreateMap<LeaveAllocation, LeaveAllocationDetailsDto>();
+        CreateMap<UpdateLeaveAllocationCommand, LeaveAllocation>();
     }
 }

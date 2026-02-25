@@ -1,5 +1,4 @@
 ﻿using HR.LeaveManagement.Domain.Common;
-using HR.LeaveManagement.Domain.Identity;
 
 namespace HR.LeaveManagement.Domain;
 
@@ -11,10 +10,7 @@ public class LeaveRequest : BaseEntity<int>
     public DateTime DateRequested { get; set; }
     public string? RequestComments { get; set; }
     public LeaveRequestStatus Status { get; set; }
-    public bool Cancelled { get; set; }
-
-    public string RequestingEmployeeId { get; set; } = string.Empty;
-
+    public string EmployeeId { get; set; } = string.Empty;
     public int LeaveTypeId { get; set; }
     public LeaveType LeaveType { get; set; } = null!;
 }

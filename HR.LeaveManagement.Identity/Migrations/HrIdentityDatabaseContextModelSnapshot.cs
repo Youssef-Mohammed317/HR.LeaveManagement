@@ -162,7 +162,7 @@ namespace HR.LeaveManagement.Identity.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("IdentityRole");
+                    b.ToTable("IdentityRole", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

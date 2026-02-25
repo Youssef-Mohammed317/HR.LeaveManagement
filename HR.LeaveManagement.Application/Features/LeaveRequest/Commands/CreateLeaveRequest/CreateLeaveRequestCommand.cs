@@ -1,6 +1,10 @@
-﻿namespace HR.LeaveManagement.Application.Features.LeaveRequest.Commands.CreateLeaveRequest;
+﻿using FluentValidation;
+using HR.LeaveManagement.Application.Contracts.Presistance;
+using MediatR;
 
-public class CreateLeaveRequestCommand
+namespace HR.LeaveManagement.Application.Features.LeaveRequest.Commands.CreateLeaveRequest;
+
+public class CreateLeaveRequestCommand : IRequest<int>
 {
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }

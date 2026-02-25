@@ -13,7 +13,8 @@ public class UserService(UserManager<ApplicationUser> userManager,
     IHttpContextAccessor httpContextAccessor) : IUserService
 {
     public string? UserId => httpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
+    public string? Email => httpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value;
+    public bool IsAdmin => UserId != null && IsInRole(Roles.Administrator);
     public bool IsInRole(string role)
     {
         return httpContextAccessor?.HttpContext?

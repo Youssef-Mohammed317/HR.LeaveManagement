@@ -10,6 +10,6 @@ public class LeaveRequestProfile : Profile
     public LeaveRequestProfile()
     {
         CreateMap<LeaveRequest, LeaveRequestDetailsDto>();
-        CreateMap<LeaveRequest, LeaveRequestListDto>();
+        CreateMap<LeaveRequest, LeaveRequestDto>();
     }
 }
