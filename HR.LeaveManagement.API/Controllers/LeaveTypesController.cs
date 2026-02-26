@@ -44,15 +44,16 @@ public class LeaveTypesController(IMediator mediator) : ControllerBase
 
         return CreatedAtAction(nameof(GetById), new { id = id }, id);
     }
-    [HttpPut]
+    [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [Authorize(Roles = Roles.Administrator)]
 
-    public async Task<IActionResult> Edit([FromBody] UpdateLeaveTypeCommand command)
+    public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] UpdateLeaveTypeCommand command)
     {
+        command.Id = id;
         await mediator.Send(command);
 
         return NoContent();

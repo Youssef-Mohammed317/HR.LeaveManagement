@@ -3,5 +3,5 @@ using MediatR;
 
 namespace HR.LeaveManagement.Application.Features.LeaveRequest.Queries.GetAll.GetAllMyLeaveRequests;
 
-public record GetMyLeaveRequestsQuery
+public record GetAllMyLeaveRequestsQuery
     : IRequest<IReadOnlyList<LeaveRequestDto>>;

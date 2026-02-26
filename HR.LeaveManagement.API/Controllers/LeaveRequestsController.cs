@@ -5,6 +5,7 @@ using HR.LeaveManagement.Application.Features.LeaveRequest.Commands.DeleteLeaveR
 using HR.LeaveManagement.Application.Features.LeaveRequest.Commands.RejectLeaveRequest;
 using HR.LeaveManagement.Application.Features.LeaveRequest.Commands.UpdateLeaveRequest;
 using HR.LeaveManagement.Application.Features.LeaveRequest.Queries.GetAll.GetAllLeaveRequests;
+using HR.LeaveManagement.Application.Features.LeaveRequest.Queries.GetAll.GetAllMyLeaveRequests;
 using HR.LeaveManagement.Application.Features.LeaveRequest.Queries.GetLeaveRequestDetails;
 using HR.LeaveManagement.Application.Features.LeaveRequest.Queries.GetLeaveRequestList;
 using HR.LeaveManagement.Domain.Utility;
@@ -37,7 +38,7 @@ public class LeaveRequestsController(IMediator mediator) : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IReadOnlyList<LeaveRequestDto>>> GetAllMyLeaveRequests()
     {
-        var leaveRequests = await mediator.Send(new GetAllLeaveRequestsQuery());
+        var leaveRequests = await mediator.Send(new GetAllMyLeaveRequestsQuery());
 
         return Ok(leaveRequests);
     }

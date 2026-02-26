@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HR.LeaveManagement.Application.Features.LeaveRequest.Queries.GetAll.GetAllMyLeaveRequests;
 
-public class GetMyLeaveRequestsQueryHandler(ILeaveRequestRepository leaveRequestRepository,
+public class GetAllMyLeaveRequestsQueryHandler(ILeaveRequestRepository leaveRequestRepository,
     IUserService userService,
     IMapper mapper)
-    : IRequestHandler<GetMyLeaveRequestsQuery, IReadOnlyList<LeaveRequestDto>>
+    : IRequestHandler<GetAllMyLeaveRequestsQuery, IReadOnlyList<LeaveRequestDto>>
 {
-    public async Task<IReadOnlyList<LeaveRequestDto>> Handle(GetMyLeaveRequestsQuery request, CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<LeaveRequestDto>> Handle(GetAllMyLeaveRequestsQuery request, CancellationToken cancellationToken)
     {
         var leaveRequests = await leaveRequestRepository.GetAsync(
             filter: q => q.EmployeeId == userService.UserId,

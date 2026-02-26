@@ -10,9 +10,8 @@ public class LeaveRequestDto
     public DateTime EndDate { get; set; }
     public DateTime DateRequested { get; set; }
     public string? RequestComments { get; set; }
-    public LeaveRequestStatus Status { get; set; }
-    public bool Cancelled { get; set; }
-    public string RequestingEmployeeId { get; set; } = string.Empty;
+    public string Status { get; set; }
+    public string EmployeeId { get; set; } = string.Empty;
     public int LeaveTypeId { get; set; }
     public LeaveTypeDto LeaveType { get; set; } = null!;
 }

@@ -1,12 +1,14 @@
-﻿using HR.LeaveManagement.Application.Contracts.Identity;
+﻿using HR.LeaveManagement.Application.Contracts.Email;
+using HR.LeaveManagement.Application.Contracts.Identity;
 using HR.LeaveManagement.Application.Contracts.Presistance;
 using HR.LeaveManagement.Application.Exceptions;
+using HR.LeaveManagement.Application.Model.Email;
 using HR.LeaveManagement.Domain;
 using MediatR;
 
 namespace HR.LeaveManagement.Application.Features.LeaveRequest.Commands.DeleteLeaveRequest;
 
-public class DeleteLeaveRequestCommandHandler(ILeaveRequestRepository leaveRequestRepository,
+public class DeleteLeaveRequestCommandHandler(ILeaveRequestRepository leaveRequestRepository, IEmailSender emailSender,
     IUserService userService) : IRequestHandler<DeleteLeaveRequestCommand>
 {
     public async Task Handle(DeleteLeaveRequestCommand request, CancellationToken cancellationToken)

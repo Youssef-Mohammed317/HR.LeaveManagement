@@ -17,3 +17,7 @@ public interface IAuthService
     Task<LoginResponse> LoginAsync(LoginRequest request);
     Task<RegistrationResponse> RegisterAsync(RegistrationRequest request);
 }
+public interface ICurrentUserService
+{
+    string? UserId { get; }
+}

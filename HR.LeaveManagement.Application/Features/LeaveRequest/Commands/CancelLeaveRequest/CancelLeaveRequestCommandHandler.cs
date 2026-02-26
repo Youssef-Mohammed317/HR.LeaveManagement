@@ -1,6 +1,8 @@
-﻿using HR.LeaveManagement.Application.Contracts.Identity;
+﻿using HR.LeaveManagement.Application.Contracts.Email;
+using HR.LeaveManagement.Application.Contracts.Identity;
 using HR.LeaveManagement.Application.Contracts.Presistance;
 using HR.LeaveManagement.Application.Exceptions;
+using HR.LeaveManagement.Application.Model.Email;
 using HR.LeaveManagement.Domain;
 using MediatR;
 
@@ -47,5 +49,6 @@ public class CancelLeaveRequestCommandHandler(ILeaveRequestRepository leaveReque
 
         leaveRequest.Status = LeaveRequestStatus.Cancelled;
         await leaveRequestRepository.UpdateAsync(leaveRequest);
+       
     }
 }

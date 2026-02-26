@@ -66,6 +66,7 @@ public static class IdentityServiceRegisteration
         services.AddHttpContextAccessor();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 
         return services;

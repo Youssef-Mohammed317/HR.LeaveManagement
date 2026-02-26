@@ -93,7 +93,7 @@ public class AuthService(IOptions<JwtSettings> options,
 
         };
 
-        var result = await userManager.CreateAsync(user);
+        var result = await userManager.CreateAsync(user, request.Password);
 
         if (!result.Succeeded)
         {
@@ -122,15 +122,20 @@ public class AuthService(IOptions<JwtSettings> options,
                 await emailSender.SendEmailAsync(new EmailMessage
                 {
                     To = user.Email!,
+                    Subject = "Welcome to HR Leave Management System",
                     Body = $@"
-                    <h2>Welcome to HR Leave Management System</h2>
-                    <p>Hello <strong>{user.UserName}</strong>,</p>
-                    <p>Your account has been successfully created.</p>
-                    <p>You can now log in and manage your leave requests.</p>
-                    <p>Registration Date: {DateTime.UtcNow:yyyy-MM-dd}</p>
-                    <br/>
-                    <p>Best regards,<br/>HR Team</p>
-                "
+                    Welcome to HR Leave Management System
+
+                    Hello {user.UserName},
+
+                    Your account has been successfully created.
+                    You can now log in and manage your leave requests.
+
+                    Registration Date: {DateTime.UtcNow:yyyy-MM-dd}
+
+                    Best regards,
+                    HR Team
+                    "
                 });
             }
             catch (Exception ex)

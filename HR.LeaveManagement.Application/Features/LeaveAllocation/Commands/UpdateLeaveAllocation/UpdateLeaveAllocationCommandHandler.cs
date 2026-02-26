@@ -1,25 +1,26 @@
 ﻿using AutoMapper;
+using HR.LeaveManagement.Application.Contracts.Email;
 using HR.LeaveManagement.Application.Contracts.Identity;
 using HR.LeaveManagement.Application.Contracts.Presistance;
 using HR.LeaveManagement.Application.Exceptions;
+using HR.LeaveManagement.Application.Model.Email;
 using HR.LeaveManagement.Domain;
-using HR.LeaveManagement.Domain.Utility;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.UpdateLeaveAllocation;
 
-public class UpdateLeaveAllocationCommandHandler(ILeaveAllocationRepository leaveAllocationRepository,
+public class UpdateLeaveAllocationCommandHandler(ILeaveAllocationRepository leaveAllocationRepository, IEmailSender emailSender,
     ILeaveRequestRepository leaveRequestRepository,
     IUserService userService,
-    IMapper mapper) : IRequestHandler<UpdateLeaveAllocationCommand>
+    IMapper mapper) : IRequestHandler<UpdateLeaveAllocationCommand, Unit>
 {
-    public async Task Handle(UpdateLeaveAllocationCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateLeaveAllocationCommand request, CancellationToken cancellationToken)
     {
         if (!userService.IsAdmin)
             throw new ForbiddenAccessException();
 
-        var entity = await leaveAllocationRepository.GetByIdAsync(request.Id)
+        var entity = await leaveAllocationRepository.GetFirstAsync(filter: f => f.Id == request.Id, include: c => c.Include(c => c.LeaveType))
             ?? throw new NotFoundException(nameof(Domain.LeaveAllocation), request.Id);
 
         var approvedDays = await leaveRequestRepository.SumAsync(
@@ -38,5 +39,7 @@ public class UpdateLeaveAllocationCommandHandler(ILeaveAllocationRepository leav
         mapper.Map(request, entity);
 
         await leaveAllocationRepository.UpdateAsync(entity);
+
+        return Unit.Value;
     }
 }

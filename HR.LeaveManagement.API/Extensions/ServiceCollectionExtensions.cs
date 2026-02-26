@@ -3,6 +3,7 @@ using HR.LeaveManagement.Application;
 using HR.LeaveManagement.Identity;
 using HR.LeaveManagement.Infrastructure;
 using HR.LeaveManagement.Persistence;
+using Microsoft.OpenApi;
 namespace HR.LeaveManagement.API.Extensions;
 
 public static class ServiceCollectionExtensions
@@ -15,7 +16,20 @@ public static class ServiceCollectionExtensions
         services.AddControllers();
         services.AddOpenApi();
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                Description = "JWT Authorization header using the Bearer scheme."
+            });
+            options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+            {
+                [new OpenApiSecuritySchemeReference("bearer", document)] = []
+            });
+        });
 
         return services;
     }
@@ -23,10 +37,11 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.AddPresentationServices(configuration);
         services.AddPersistenceServices(configuration);
-        services.AddApplicationServices(configuration);
         services.AddInfrastructureServices(configuration);
         services.AddIdentityServices(configuration);
+        services.AddApplicationServices(configuration);
 
         services.AddCors(options =>
         {

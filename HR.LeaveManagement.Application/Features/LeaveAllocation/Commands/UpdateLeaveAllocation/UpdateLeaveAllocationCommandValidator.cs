@@ -12,14 +12,14 @@ public class UpdateLeaveAllocationCommandValidator : AbstractValidator<UpdateLea
         this.leaveAllocationRepository = leaveAllocationRepository;
 
         RuleFor(p => p.NumberOfDays)
-            .GreaterThan(0)
-            .WithMessage("{PropertyName} must greater than {ComparisonValue}");
+            .GreaterThan(0).WithMessage("{PropertyName} must greater than {ComparisonValue}")
+                   .LessThanOrEqualTo(100).WithMessage("{PropertyName} must less than {ComparisonValue}");
 
 
 
         RuleFor(p => p.Id)
                  .Cascade(CascadeMode.Stop)
-                   .GreaterThan(0).WithMessage("{PropertyName} must greater than {ComparisonValue}")
+
                    .NotNull()
                    .MustAsync(LeaveAllocationMustExist).WithMessage("{PropertyName} must be present");
 

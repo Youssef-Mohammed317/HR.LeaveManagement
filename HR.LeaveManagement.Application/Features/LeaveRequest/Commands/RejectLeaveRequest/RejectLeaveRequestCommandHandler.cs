@@ -1,8 +1,9 @@
-﻿using HR.LeaveManagement.Application.Contracts.Identity;
+﻿using HR.LeaveManagement.Application.Contracts.Email;
+using HR.LeaveManagement.Application.Contracts.Identity;
 using HR.LeaveManagement.Application.Contracts.Presistance;
 using HR.LeaveManagement.Application.Exceptions;
+using HR.LeaveManagement.Application.Model.Email;
 using HR.LeaveManagement.Domain;
-using HR.LeaveManagement.Domain.Utility;
 using MediatR;
 
 namespace HR.LeaveManagement.Application.Features.LeaveRequest.Commands.RejectLeaveRequest;
@@ -12,7 +13,7 @@ public class RejectLeaveRequestCommandHandler(ILeaveRequestRepository leaveReque
 {
     public async Task Handle(RejectLeaveRequestCommand request, CancellationToken cancellationToken)
     {
-   if (!userService.IsAdmin)
+        if (!userService.IsAdmin)
             throw new ForbiddenAccessException();
 
         var leaveRequest = await leaveRequestRepository.GetByIdAsync(request.Id)
@@ -26,6 +27,5 @@ public class RejectLeaveRequestCommandHandler(ILeaveRequestRepository leaveReque
         leaveRequest.Status = LeaveRequestStatus.Rejected;
 
         await leaveRequestRepository.UpdateAsync(leaveRequest);
-
     }
 }

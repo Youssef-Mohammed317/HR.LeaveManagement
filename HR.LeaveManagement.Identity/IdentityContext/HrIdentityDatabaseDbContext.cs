@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HR.LeaveManagement.Identity.IdentityContext;
 
-public class HrIdentityDatabaseContext(DbContextOptions<HrIdentityDatabaseContext> options)
+public class HrIdentityDatabaseContext(DbContextOptions<HrIdentityDatabaseContext> options, ICurrentUserService userService)
     : IdentityDbContext<ApplicationUser, ApplicationRole, string>(options)
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,11 +24,11 @@ public class HrIdentityDatabaseContext(DbContextOptions<HrIdentityDatabaseContex
         foreach (var entry in entries)
         {
             entry.Entity.DateModified = DateTime.UtcNow;
-            //entry.Entity.ModifiedBy = userService.UserId;
+            entry.Entity.ModifiedBy = userService.UserId;
             if (entry.State == EntityState.Added)
             {
                 entry.Entity.DateCreated = DateTime.UtcNow;
-                //entry.Entity.CreatedBy = userService.UserId;
+                entry.Entity.CreatedBy = userService.UserId;
             }
         }
 

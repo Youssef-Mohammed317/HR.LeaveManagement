@@ -1,13 +1,14 @@
-﻿using HR.LeaveManagement.Application.Contracts.Identity;
+﻿using HR.LeaveManagement.Application.Contracts.Email;
+using HR.LeaveManagement.Application.Contracts.Identity;
 using HR.LeaveManagement.Application.Contracts.Presistance;
 using HR.LeaveManagement.Application.Exceptions;
-using HR.LeaveManagement.Domain.Utility;
+using HR.LeaveManagement.Application.Model.Email;
 using MediatR;
 
 namespace HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.CreateLeaveAllocation;
 
 public class CreateLeaveAllocationCommandHandler(ILeaveAllocationRepository leaveAllocationRepository,
-    ILeaveTypeRepository leaveTypeRepository,
+    ILeaveTypeRepository leaveTypeRepository, IEmailSender emailSender,
     IUserService userService) : IRequestHandler<CreateLeaveAllocationCommand, int>
 {
     public async Task<int> Handle(CreateLeaveAllocationCommand request, CancellationToken cancellationToken)
@@ -42,6 +43,7 @@ public class CreateLeaveAllocationCommandHandler(ILeaveAllocationRepository leav
                 };
 
                 await leaveAllocationRepository.CreateAsync(newAllocation);
+
             }
         }
         return leaveType.Id;

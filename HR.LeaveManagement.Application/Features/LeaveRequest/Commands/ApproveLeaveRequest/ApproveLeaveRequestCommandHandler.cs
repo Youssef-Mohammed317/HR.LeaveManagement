@@ -1,8 +1,11 @@
-﻿using HR.LeaveManagement.Application.Contracts.Identity;
+﻿using HR.LeaveManagement.Application.Contracts.Email;
+using HR.LeaveManagement.Application.Contracts.Identity;
 using HR.LeaveManagement.Application.Contracts.Presistance;
 using HR.LeaveManagement.Application.Exceptions;
+using HR.LeaveManagement.Application.Model.Email;
 using HR.LeaveManagement.Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace HR.LeaveManagement.Application.Features.LeaveRequest.Commands.ApproveLeaveRequest;
 
@@ -33,7 +36,7 @@ public class ApproveLeaveRequestCommandHandler(ILeaveRequestRepository leaveRequ
             ?? throw new BadRequestException("No allocation found for this employee.");
 
         var approvedDays = await leaveRequestRepository.SumAsync(
-                   s => (s.EndDate - s.StartDate).Days + 1,
+                   s => EF.Functions.DateDiffDay(s.StartDate, s.EndDate) + 1,
                    q => q.EmployeeId == leaveRequest.EmployeeId &&
                         q.LeaveTypeId == leaveRequest.LeaveTypeId &&
                         q.Status == LeaveRequestStatus.Approved);
@@ -46,7 +49,6 @@ public class ApproveLeaveRequestCommandHandler(ILeaveRequestRepository leaveRequ
         leaveRequest.Status = LeaveRequestStatus.Approved;
 
         await leaveRequestRepository.UpdateAsync(leaveRequest);
-
 
     }
 }

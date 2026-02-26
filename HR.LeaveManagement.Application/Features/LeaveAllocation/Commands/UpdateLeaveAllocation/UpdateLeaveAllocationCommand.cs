@@ -2,4 +2,8 @@
 
 namespace HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.UpdateLeaveAllocation;
 
-public record UpdateLeaveAllocationCommand(int Id, int NumberOfDays) : IRequest;
+public class UpdateLeaveAllocationCommand : IRequest<Unit>
+{
+    public int Id { get; set; }
+    public int NumberOfDays { get; set; } 
+}

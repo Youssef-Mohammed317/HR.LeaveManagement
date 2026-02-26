@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HR.LeaveManagement.Persistence.DatabaseContext;
 
-public class HrDatabaseContext(DbContextOptions<HrDatabaseContext> options) : DbContext(options)
+public class HrDatabaseContext(DbContextOptions<HrDatabaseContext> options, ICurrentUserService userService) : DbContext(options)
 {
     public DbSet<LeaveType> LeaveTypes { get; set; }
     public DbSet<LeaveAllocation> LeaveAllocations { get; set; }
@@ -27,11 +27,11 @@ public class HrDatabaseContext(DbContextOptions<HrDatabaseContext> options) : Db
         foreach (var entry in entries)
         {
             entry.Entity.DateModified = DateTime.UtcNow;
-            //entry.Entity.ModifiedBy = userService.UserId;
+            entry.Entity.ModifiedBy = userService.UserId;
             if (entry.State == EntityState.Added)
             {
                 entry.Entity.DateCreated = DateTime.UtcNow;
-                //entry.Entity.CreatedBy = userService.UserId;
+                entry.Entity.CreatedBy = userService.UserId;
             }
         }
 

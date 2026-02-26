@@ -17,10 +17,9 @@ public class LeaveRequestDetailsDto
 
     public DateTime DateRequested { get; set; }
     public string? RequestComments { get; set; }
-    public LeaveRequestStatus Status { get; set; }
-    public bool Cancelled { get; set; }
+    public string Status { get; set; }
 
-    public string RequestingEmployeeId { get; set; } = string.Empty;
+    public string EmployeeId { get; set; } = string.Empty;
 
 
     public Employee Employee { get; set; } = null!;

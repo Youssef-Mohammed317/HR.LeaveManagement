@@ -3,8 +3,8 @@ using MediatR;
 
 namespace HR.LeaveManagement.Application.Behaviors;
 
-public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IRequest<TResponse>
+public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
+    : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {

@@ -1,0 +1,15 @@
+{
+  "workspace": {
+    "id": ""
+  },
+  "entities": {
+    "environments": [],
+    "flows": [],
+    "globals": [],
+    "mocks": [],
+    "specs": [
+      "..\\HR.LeaveManagement.API\\obj\\Debug\\net10.0\\EndpointInfo\\HR.LeaveManagement.API.json"
+    ],
+    "collections": []
+  }
+}
