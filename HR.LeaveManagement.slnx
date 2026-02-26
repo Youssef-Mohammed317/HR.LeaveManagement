@@ -12,5 +12,8 @@
     <Project Path="HR.LeaveManagement.Infrastructure/HR.LeaveManagement.Infrastructure.csproj" Id="7994dc91-a384-4a23-969c-2b8cff51f90c" />
     <Project Path="HR.LeaveManagement.Presistance/HR.LeaveManagement.Persistence.csproj" Id="dd76336e-b44d-4d2e-974d-5644624d52a1" />
   </Folder>
-  <Folder Name="/tests/" />
+  <Folder Name="/test/" />
+  <Folder Name="/test/Core/">
+    <Project Path="HR.LeaveManagement.Application.Tests/HR.LeaveManagement.Application.Tests.csproj" Id="88a56abf-d5a1-4e3c-86d5-08f4d1474a9f" />
+  </Folder>
 </Solution>
