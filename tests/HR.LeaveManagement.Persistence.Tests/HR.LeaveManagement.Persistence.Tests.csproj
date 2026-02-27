@@ -18,7 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\HR.LeaveManagement.Presistance\HR.LeaveManagement.Persistence.csproj" />
+		<ProjectReference Include="..\..\src\HR.LeaveManagement.Presistance\HR.LeaveManagement.Persistence.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

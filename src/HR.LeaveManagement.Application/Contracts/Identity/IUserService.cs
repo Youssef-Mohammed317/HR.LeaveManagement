@@ -12,12 +12,3 @@ public interface IUserService
     Task<IReadOnlyList<Employee>> GetAllEmployeesAsync();
     Task<Employee> GetEmployeeByIdAsync(string userId);
 }
-public interface IAuthService
-{
-    Task<LoginResponse> LoginAsync(LoginRequest request);
-    Task<RegistrationResponse> RegisterAsync(RegistrationRequest request);
-}
-public interface ICurrentUserService
-{
-    string? UserId { get; }
-}
