@@ -134,6 +134,8 @@ Monitoring and logs are handled using:
 
 ## 🧪 Testing
 
+![Test Results](./docs/tests.png)
+
 The project includes focused Unit Tests targeting the most critical business logic inside the Application layer.
 
 ### What Is Covered
