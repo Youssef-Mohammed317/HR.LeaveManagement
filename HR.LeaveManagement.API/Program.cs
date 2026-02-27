@@ -3,11 +3,10 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
+
 Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json")
-        .Build())
-    .CreateLogger();
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
 try
 {
@@ -26,7 +25,6 @@ try
 
     Log.Information("Application started successfully in {Environment}",
     app.Environment.EnvironmentName);
-
     await app.InitialiseDatabaseAsync();
 
     app.UsePresentationPipeline();
