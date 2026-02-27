@@ -11,6 +11,12 @@ https://drive.google.com/file/d/1w3EPjJ_CK8lfnlYPYxWTMvT1B5gScSgW/view?usp=drive
 
 ---
 
+## 📸 Swagger Preview
+
+![Swagger Screenshot](./docs/swagger.png)
+
+---
+
 ## Overview
 
 This is a **production-ready ASP.NET Core Web API** built using **Clean Architecture**, **SOLID principles**, and **CQRS with MediatR**.
