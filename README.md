@@ -134,30 +134,9 @@ Monitoring and logs are handled using:
 
 ## 🧪 Testing
 
-![Test Results](./docs/tests.png)
-
-The project includes focused Unit Tests targeting the most critical business logic inside the Application layer.
-
-### What Is Covered
-
-✔ Command Handlers (Create / Update / Delete flows)  
-✔ Query Handlers  
-✔ Business Rule validations  
-✔ Failure scenarios (BadRequest, NotFound, Forbidden cases)  
-✔ Authorization-related rules  
-✔ Audit behavior verification  
-
-Testing approach focuses on **behavior and business logic**, not framework internals.
-
-### Testing Strategy
-
-- Unit Testing for Application layer
-- Mocking dependencies using Moq
-- Clear Arrange / Act / Assert structure
-- Edge case validation
-- Isolated testing without database dependency
-
-The goal is to ensure reliability, maintainability, and safe refactoring.
+- Unit Tests for Application Handlers
+- Mocking using Moq
+- Testing audit behavior in Persistence Layer
 
 ---
 
